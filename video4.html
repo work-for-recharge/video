@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work For Recharge - Watch Ad 4</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+        }
+        h1 {
+            color: #27ae60;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #666;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 12px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+            border: none;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .btn:hover {
+            background-color: #219653;
+        }
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .timer {
+            font-size: 18px;
+            color: #e74c3c;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📢 ভিডিও বিজ্ঞাপন দেখুন</h1>
+    <p>নিচের বোতামে ক্লিক করে বিজ্ঞাপনটি সম্পূর্ণ দেখুন। ভিডিও শেষ হলে আপনার পয়েন্ট পাওয়ার সিক্রেট কোডটি এখানে দেখতে পাবেন।</p>
+    
+    <button id="adBtn" class="btn" onclick="openAd()">বিজ্ঞাপন চালু করুন</button>
+    <div id="statusArea" class="timer" style="display: none;"></div>
+</div>
+
+<script>
+    // 📢 এখানে আপনার ৪ নম্বর Adsterra ডিরেক্ট লিঙ্কটি বসাবেন
+    const adLink = "https://www.profitableratecpmnetwork.com/z8aq7rv8d?key=4f0273ed46fd9bab7e7f94ac75f4b7b9";
+    
+    let adWindow = null;
+    let timerInterval = null;
+
+    function openAd() {
+        if (!adLink || adLink.includes("YOUR_ADSTERRA")) {
+            alert("অনুগ্রহ করে প্রথমে কোডের ভেতর আপনার ৪ নম্বর Adsterra লিঙ্কটি বসান!");
+            return;
+        }
+
+        document.getElementById('adBtn').disabled = true;
+        document.getElementById('adBtn').innerText = "বিজ্ঞাপন চলছে...";
+        
+        const statusArea = document.getElementById('statusArea');
+        statusArea.style.display = "block";
+        
+        adWindow = window.open(adLink, '_blank');
+
+        let timeLeft = 15;
+        statusArea.innerText = `⏳ দয়া করে ${timeLeft} সেকেন্ড অপেক্ষা করুন...`;
+
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            if (timeLeft > 0) {
+                statusArea.innerText = `⏳ দয়া করে ${timeLeft} সেকেন্ড অপেক্ষা করুন...`;
+            } else {
+                clearInterval(timerInterval);
+                
+                const secretCode = "WFR" + Math.floor(10000 + Math.random() * 90000);
+                statusArea.style.color = "#27ae60";
+                statusArea.innerHTML = `✅ ভিডিও দেখা সম্পন্ন হয়েছে!<br><br>👉 আপনার সিক্রেট কোড: <b style="font-size: 22px; color: #2ecc71;">${secretCode}</b><br><br>কোডটি কপি করে বটের ভেতর পেস্ট করুন।`;
+                
+                document.getElementById('adBtn').innerText = "কাজ সম্পন্ন!";
+            }
+        }, 1000);
+    }
+</script>
+
+</body>
+</html>
