@@ -236,12 +236,12 @@
             document.getElementById('timer-display').innerText = countdown;
             document.getElementById('video-panel').classList.add('active');
             
-            // অফিশিয়াল টেলিগ্রাম মেকানিজম দিয়ে লিঙ্ক ওপেন করার ফিক্সড সিস্টেম
+            // 🔒 টেলিগ্রাম মিনি অ্যাপের অফিশিয়াল সরাসরি ইন-অ্যাপ ওপেনার মেকানিজম
             let targetUrl = `https://github.io{linkNum}.html`;
             try {
-                tg.openLink(targetUrl);
+                tg.openLink(targetUrl, { try_instant_view: false });
             } catch(e) {
-                window.open(targetUrl, '_blank');
+                window.location.href = targetUrl;
             }
 
             timerId = setInterval(() => {
@@ -276,11 +276,11 @@
 
         function handleWithdraw() {
             if (userBalance < 1000) {
-                // পপ-আপ মেসেজ যা ব্যালেন্স কম থাকলে স্ক্রিনেই দেখাবে
                 tg.showPopup({
                     title: 'ব্যালেন্স কম!',
                     message: `মোবাইল রিচার্জের জন্য ন্যূনতম ১০০০ পয়েন্ট প্রয়োজন। আপনার বর্তমান ব্যালেন্স: ${userBalance} পয়েন্ট।`,
                     buttons: [{type: 'close', text: 'ঠিক আছে'}]
                 });
             } else {
-                // ১০০০ এর বেশি হলে বটের কাছে মেসেজ ডাটা সাবমিট করবে
+                tg.showPopup({
+                    title: 'আবেদন সফল',
