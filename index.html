@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Work For Recharge - Mini App</title>
-    <!-- Telegram WebApp JS Script version 1 to instantly refresh cache -->
+    <title>Work For Recharge</title>
     <script src="https://telegram.org"></script>
     <style>
         :root {
@@ -34,34 +33,12 @@
             margin-bottom: 20px;
             border-bottom: 1px solid #242b35;
         }
-        .logo-text {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--accent-color);
-            text-transform: uppercase;
-        }
         .balance-card {
             background: linear-gradient(135deg, #1e2530, #151a24);
             padding: 8px 16px;
             border-radius: 20px;
             border: 1px solid #2f80ed40;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .balance-amount {
-            color: #f2c94c;
-        }
-        .instruction {
-            text-align: center;
-            font-size: 14px;
-            color: var(--text-sub);
-            margin-bottom: 20px;
-            background: var(--card-bg);
-            padding: 10px;
-            border-radius: 10px;
-            width: 95%;
         }
         .grid-container {
             display: grid;
@@ -92,8 +69,6 @@
         .action-area {
             width: 100%;
             max-width: 400px;
-            margin-top: auto;
-            padding-bottom: 10px;
         }
         .withdraw-btn {
             width: 100%;
@@ -111,28 +86,25 @@
 <body>
 
     <div class="header">
-        <span class="logo-text">WFR App</span>
-        <div class="balance-card">
-            <span>💰 Balance:</span>
-            <span id="user-balance" class="balance-amount">200</span>
-        </div>
+        <span style="font-weight:700; color:var(--accent-color);">WFR APP</span>
+        <div class="balance-card">💰 Balance: <span id="user-balance" style="color:#f2c94c;">200</span></div>
     </div>
 
-    <div class="instruction">
-        যেকোনো লিংকে ক্লিক করে বিজ্ঞাপনটি দেখুন। সম্পূর্ণ দেখলে পয়েন্ট যোগ হবে।
+    <div style="text-align:center; font-size:14px; color:var(--text-sub); margin-bottom:20px; background:var(--card-bg); padding:10px; border-radius:10px; width:95%;">
+        যেকোনো লিংকে ক্লিক করে ১৫ সেকেন্ড কাজ সম্পন্ন করুন।
     </div>
 
     <div class="grid-container">
-        <button class="video-btn" onclick="startVideoWork(1)"><span>Link 1</span><span class="status-icon" id="status-1">0/3</span></button>
-        <button class="video-btn" onclick="startVideoWork(2)"><span>Link 2</span><span class="status-icon" id="status-2">0/3</span></button>
-        <button class="video-btn" onclick="startVideoWork(3)"><span>Link 3</span><span class="status-icon" id="status-3">0/3</span></button>
-        <button class="video-btn" onclick="startVideoWork(4)"><span>Link 4</span><span class="status-icon" id="status-4">0/3</span></button>
-        <button class="video-btn" onclick="startVideoWork(5)"><span>Link 5</span><span class="status-icon" id="status-5">0/3</span></button>
-        <button class="video-btn" onclick="startVideoWork(6)"><span>Link 6</span><span class="status-icon" id="status-6">0/3</span></button>
-        <button class="video-btn" onclick="startVideoWork(7)"><span>Link 7</span><span class="status-icon" id="status-7">0/3</span></button>
-        <button class="video-btn" onclick="startVideoWork(8)"><span>Link 8</span><span class="status-icon" id="status-8">0/3</span></button>
-        <button class="video-btn" onclick="startVideoWork(9)"><span>Link 9</span><span class="status-icon" id="status-9">0/3</span></button>
-        <button class="video-btn" onclick="startVideoWork(10)"><span>Link 10</span><span class="status-icon" id="status-10">0/3</span></button>
+        <button class="video-btn" onclick="startWork(1)"><span>Link 1</span><span class="status-icon" id="status-1">0/3</span></button>
+        <button class="video-btn" onclick="startWork(2)"><span>Link 2</span><span class="status-icon" id="status-2">0/3</span></button>
+        <button class="video-btn" onclick="startWork(3)"><span>Link 3</span><span class="status-icon" id="status-3">0/3</span></button>
+        <button class="video-btn" onclick="startWork(4)"><span>Link 4</span><span class="status-icon" id="status-4">0/3</span></button>
+        <button class="video-btn" onclick="startWork(5)"><span>Link 5</span><span class="status-icon" id="status-5">0/3</span></button>
+        <button class="video-btn" onclick="startWork(6)"><span>Link 6</span><span class="status-icon" id="status-6">0/3</span></button>
+        <button class="video-btn" onclick="startWork(7)"><span>Link 7</span><span class="status-icon" id="status-7">0/3</span></button>
+        <button class="video-btn" onclick="startWork(8)"><span>Link 8</span><span class="status-icon" id="status-8">0/3</span></button>
+        <button class="video-btn" onclick="startWork(9)"><span>Link 9</span><span class="status-icon" id="status-9">0/3</span></button>
+        <button class="video-btn" onclick="startWork(10)"><span>Link 10</span><span class="status-icon" id="status-10">0/3</span></button>
     </div>
 
     <div class="action-area">
@@ -157,26 +129,26 @@
             }
         }
 
-        function startVideoWork(linkNum) {
+        function startWork(linkNum) {
             let clicks = clickTracker[linkNum] || 0;
             if (clicks >= 3) {
                 if (tg.showPopup) {
-                    tg.showPopup({ title: 'সীমাবদ্ধতা!', message: `লিঙ্ক ${linkNum} এর আজকের কাজের লিমিট শেষ!` });
+                    tg.showPopup({ message: `লিঙ্ক ${linkNum} এর আজকের লিমিট শেষ!` });
                 } else {
-                    alert(`লিঙ্ক ${linkNum} এর আজকের কাজের লিমিট শেষ!`);
+                    alert(`লিঙ্ক ${linkNum} এর লিমিট শেষ!`);
                 }
                 return;
             }
             
             let targetUrl = `https://github.io{linkNum}.html`;
             
-            // পয়েন্ট ও ক্লিক ট্র্যাকিং আপডেট
+            // পয়েন্ট ও লাইভ কাউন্ট সেট
             clickTracker[linkNum] = clicks + 1;
             localStorage.setItem('wfr_clicks', JSON.stringify(clickTracker));
             userBalance += 5;
             initApp();
 
-            // টেলিগ্রাম ইন-অ্যাপ ওপেনার দিয়ে সরাসরি ভিডিও ডিরেক্টরি লোড
+            // টেলিগ্রামের অফিশিয়াল ইন-অ্যাপ পপ-আপ ব্রাউজার মেকানিজম
             if (tg.openLink) {
                 tg.openLink(targetUrl);
             } else {
@@ -199,8 +171,7 @@
                 if (tg.showPopup) {
                     tg.showPopup({
                         title: 'আবেদন সফল',
-                        message: `আপনার রিচার্জ রিকোয়েস্টটি সাবমিট করতে বটের ইনবক্সে গিয়ে রিকোয়েস্ট দিন।`,
-                        buttons: [{type: 'ok'}]
+                        message: `আপনার রিচার্জ রিকোয়েস্টটি সাবমিট করতে বটের ইনবক্সে গিয়ে রিকোয়েস্ট দিন।`
                     });
                 }
                 if (tg.close) { tg.close(); }
