@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Work For Recharge</title>
-    <!-- Telegram WebApp Script -->
     <script src="https://telegram.org"></script>
     <style>
         :root {
@@ -125,7 +124,6 @@
             }
         }
 
-        // 🔒 ওরিজিনাল গিটহাব লাইভ লিঙ্ক ফরম্যাট যা এক ক্লিকে পপ-আপ ভাঙবে
         function startWork(linkNum) {
             let clicks = clickTracker[linkNum] || 0;
             if (clicks >= 3) {
@@ -133,7 +131,8 @@
                 return;
             }
             
-            let targetUrl = `https://github.io{linkNum}.html`;
+            // 📢 আপনার আসল বিজ্ঞাপনের ডিরেক্ট ইউআরএল লিঙ্ক এখানে বসাবেন ভাই!
+            let targetUrl = "https://github.io" + linkNum + ".html";
             
             clickTracker[linkNum] = clicks + 1;
             localStorage.setItem('wfr_clicks', JSON.stringify(clickTracker));
