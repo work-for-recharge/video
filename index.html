@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Work For Recharge - Mini App</title>
-    <!-- Telegram WebApp Script -->
+    <!-- Telegram WebApp JS Script version 1 to instantly refresh cache -->
     <script src="https://telegram.org"></script>
     <style>
         :root {
@@ -15,9 +15,8 @@
             --text-sub: #8292a6;
             --success: #27ae60;
         }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
@@ -26,7 +25,6 @@
             flex-direction: column;
             align-items: center;
         }
-
         .header {
             width: 100%;
             display: flex;
@@ -36,15 +34,12 @@
             margin-bottom: 20px;
             border-bottom: 1px solid #242b35;
         }
-
         .logo-text {
             font-size: 18px;
             font-weight: 700;
             color: var(--accent-color);
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
-
         .balance-card {
             background: linear-gradient(135deg, #1e2530, #151a24);
             padding: 8px 16px;
@@ -55,11 +50,9 @@
             align-items: center;
             gap: 5px;
         }
-
         .balance-amount {
             color: #f2c94c;
         }
-
         .instruction {
             text-align: center;
             font-size: 14px;
@@ -70,7 +63,6 @@
             border-radius: 10px;
             width: 95%;
         }
-
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -79,7 +71,6 @@
             max-width: 400px;
             margin-bottom: 25px;
         }
-
         .video-btn {
             background: var(--card-bg);
             border: 1px solid #242b35;
@@ -89,67 +80,21 @@
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 5px;
         }
-
         .status-icon {
             font-size: 11px;
             color: var(--text-sub);
         }
-
-        .video-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(7, 9, 13, 0.98);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            display: none;
-        }
-
-        .video-overlay.active {
-            display: flex;
-        }
-
-        .timer-circle {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 4px solid var(--accent-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .close-btn {
-            background: #eb5757;
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
         .action-area {
             width: 100%;
             max-width: 400px;
             margin-top: auto;
             padding-bottom: 10px;
         }
-
         .withdraw-btn {
             width: 100%;
             padding: 14px;
@@ -165,7 +110,6 @@
 </head>
 <body>
 
-    <!-- Header -->
     <div class="header">
         <span class="logo-text">WFR App</span>
         <div class="balance-card">
@@ -174,12 +118,10 @@
         </div>
     </div>
 
-    <!-- Instruction -->
     <div class="instruction">
-        যেকোনো লিংকে ক্লিক করে ১৫ সেকেন্ড বিজ্ঞাপনটি দেখুন। সম্পূর্ণ না দেখলে পয়েন্ট যোগ হবে না।
+        যেকোনো লিংকে ক্লিক করে বিজ্ঞাপনটি দেখুন। সম্পূর্ণ দেখলে পয়েন্ট যোগ হবে।
     </div>
 
-    <!-- ১০টি বোতাম তালিকা -->
     <div class="grid-container">
         <button class="video-btn" onclick="startVideoWork(1)"><span>Link 1</span><span class="status-icon" id="status-1">0/3</span></button>
         <button class="video-btn" onclick="startVideoWork(2)"><span>Link 2</span><span class="status-icon" id="status-2">0/3</span></button>
@@ -193,94 +135,79 @@
         <button class="video-btn" onclick="startVideoWork(10)"><span>Link 10</span><span class="status-icon" id="status-10">0/3</span></button>
     </div>
 
-    <!-- Bottom Action -->
     <div class="action-area">
         <button class="withdraw-btn" onclick="handleWithdraw()">📱 Mobile Recharge</button>
     </div>
 
-    <!-- Video Ads Overlay -->
-    <div class="video-overlay" id="video-panel">
-        <div class="timer-circle" id="timer-display">15</div>
-        <div style="text-align:center; margin-bottom:30px; color:var(--text-sub); padding:0 20px;">
-            বিজ্ঞাপনটি লোড হচ্ছে... এটি ১৫ সেকেন্ড দেখুন। মাঝপথে কেটে দিলে পয়েন্ট পাবেন না।
-        </div>
-        <button class="close-btn" onclick="cancelVideo()">❌ কাজ বাতিল করুন</button>
-    </div>
-
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand();
+        if (tg.expand) { tg.expand(); }
 
         let userBalance = 200;
-        let activeLink = null;
-        let countdown = 15;
-        let timerId = null;
         let clickTracker = JSON.parse(localStorage.getItem('wfr_clicks')) || {};
 
         function initApp() {
             document.getElementById('user-balance').innerText = userBalance;
             for (let i = 1; i <= 10; i++) {
                 let clicks = clickTracker[i] || 0;
-                document.getElementById(`status-${i}`).innerText = clicks >= 3 ? '3/3 ✅' : `${clicks}/3`;
+                let element = document.getElementById(`status-${i}`);
+                if(element) {
+                    element.innerText = clicks >= 3 ? '3/3 ✅' : `${clicks}/3`;
+                }
             }
         }
 
         function startVideoWork(linkNum) {
             let clicks = clickTracker[linkNum] || 0;
             if (clicks >= 3) {
-                tg.showPopup({ title: 'সীমাবদ্ধতা!', message: `লিঙ্ক ${linkNum} এর আজকের কাজের লিমিট শেষ!` });
+                if (tg.showPopup) {
+                    tg.showPopup({ title: 'সীমাবদ্ধতা!', message: `লিঙ্ক ${linkNum} এর আজকের কাজের লিমিট শেষ!` });
+                } else {
+                    alert(`লিঙ্ক ${linkNum} এর আজকের কাজের লিমিট শেষ!`);
+                }
                 return;
             }
-            activeLink = linkNum;
-            countdown = 15;
-            document.getElementById('timer-display').innerText = countdown;
-            document.getElementById('video-panel').classList.add('active');
             
-            // 🔒 টেলিগ্রাম মিনি অ্যাপের অফিশিয়াল সরাসরি ইন-অ্যাপ ওপেনার মেকানিজম
             let targetUrl = `https://github.io{linkNum}.html`;
-            try {
-                tg.openLink(targetUrl, { try_instant_view: false });
-            } catch(e) {
-                window.location.href = targetUrl;
-            }
-
-            timerId = setInterval(() => {
-                countdown--;
-                document.getElementById('timer-display').innerText = countdown;
-                if (countdown <= 0) {
-                    clearInterval(timerId);
-                    completeVideoWork();
-                }
-            }, 1000);
-        }
-
-        function cancelVideo() {
-            clearInterval(timerId);
-            document.getElementById('video-panel').classList.remove('active');
-            tg.showPopup({ title: 'কাজ বাতিল', message: 'পয়েন্ট যোগ হয়নি!', buttons: [{type: 'ok'}] });
-        }
-
-        function completeVideoWork() {
-            document.getElementById('video-panel').classList.remove('active');
-            clickTracker[activeLink] = (clickTracker[activeLink] || 0) + 1;
+            
+            // পয়েন্ট ও ক্লিক ট্র্যাকিং আপডেট
+            clickTracker[linkNum] = clicks + 1;
             localStorage.setItem('wfr_clicks', JSON.stringify(clickTracker));
             userBalance += 5;
             initApp();
-            
-            tg.showPopup({
-                title: 'অভিনন্দন!',
-                message: `লিঙ্ক ${activeLink} এর কাজ সম্পন্ন হয়েছে। ৫ পয়েন্ট যোগ হলো!`,
-                buttons: [{type: 'ok'}]
-            });
+
+            // টেলিগ্রাম ইন-অ্যাপ ওপেনার দিয়ে সরাসরি ভিডিও ডিরেক্টরি লোড
+            if (tg.openLink) {
+                tg.openLink(targetUrl);
+            } else {
+                window.open(targetUrl, '_blank');
+            }
         }
 
         function handleWithdraw() {
             if (userBalance < 1000) {
-                tg.showPopup({
-                    title: 'ব্যালেন্স কম!',
-                    message: `মোবাইল রিচার্জের জন্য ন্যূনতম ১০০০ পয়েন্ট প্রয়োজন। আপনার বর্তমান ব্যালেন্স: ${userBalance} পয়েন্ট।`,
-                    buttons: [{type: 'close', text: 'ঠিক আছে'}]
-                });
+                if (tg.showPopup) {
+                    tg.showPopup({
+                        title: 'ব্যালেন্স কম!',
+                        message: `মোবাইল রিচার্জের জন্য ন্যূনতম ১০০০ পয়েন্ট প্রয়োজন। আপনার আছে: ${userBalance} পয়েন্ট।`,
+                        buttons: [{type: 'close', text: 'ঠিক আছে'}]
+                    });
+                } else {
+                    alert(`ব্যালেন্স কম! ন্যূনতম ১০০০ পয়েন্ট প্রয়োজন।`);
+                }
             } else {
-                tg.showPopup({
-                    title: 'আবেদন সফল',
+                if (tg.showPopup) {
+                    tg.showPopup({
+                        title: 'আবেদন সফল',
+                        message: `আপনার রিচার্জ রিকোয়েস্টটি সাবমিট করতে বটের ইনবক্সে গিয়ে রিকোয়েস্ট দিন।`,
+                        buttons: [{type: 'ok'}]
+                    });
+                }
+                if (tg.close) { tg.close(); }
+            }
+        }
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>
