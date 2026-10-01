@@ -179,7 +179,7 @@
         যেকোনো লিংকে ক্লিক করে ১৫ সেকেন্ড বিজ্ঞাপনটি দেখুন। সম্পূর্ণ না দেখলে পয়েন্ট যোগ হবে না।
     </div>
 
-    <!-- সলিড ডিরেক্ট ১০টি বোতাম তালিকা -->
+    <!-- ১০টি বোতাম তালিকা -->
     <div class="grid-container">
         <button class="video-btn" onclick="startVideoWork(1)"><span>Link 1</span><span class="status-icon" id="status-1">0/3</span></button>
         <button class="video-btn" onclick="startVideoWork(2)"><span>Link 2</span><span class="status-icon" id="status-2">0/3</span></button>
@@ -228,7 +228,7 @@
         function startVideoWork(linkNum) {
             let clicks = clickTracker[linkNum] || 0;
             if (clicks >= 3) {
-                alert(`লিঙ্ক ${linkNum} এর আজকের কাজের লিমিট শেষ!`);
+                tg.showPopup({ title: 'সীমাবদ্ধতা!', message: `লিঙ্ক ${linkNum} এর আজকের কাজের লিমিট শেষ!` });
                 return;
             }
             activeLink = linkNum;
@@ -236,9 +236,13 @@
             document.getElementById('timer-display').innerText = countdown;
             document.getElementById('video-panel').classList.add('active');
             
-            // এখানে লিঙ্ক ফরম্যাট একদম নিখুঁত ভিডিও ফাইলের নামে মিলিয়ে দেওয়া হলো
+            // অফিশিয়াল টেলিগ্রাম মেকানিজম দিয়ে লিঙ্ক ওপেন করার ফিক্সড সিস্টেম
             let targetUrl = `https://github.io{linkNum}.html`;
-            window.open(targetUrl, '_blank');
+            try {
+                tg.openLink(targetUrl);
+            } catch(e) {
+                window.open(targetUrl, '_blank');
+            }
 
             timerId = setInterval(() => {
                 countdown--;
@@ -272,18 +276,11 @@
 
         function handleWithdraw() {
             if (userBalance < 1000) {
+                // পপ-আপ মেসেজ যা ব্যালেন্স কম থাকলে স্ক্রিনেই দেখাবে
                 tg.showPopup({
                     title: 'ব্যালেন্স কম!',
-                    message: `ন্যূনতম ১০০০ পয়েন্ট প্রয়োজন। আপনার আছে: ${userBalance} পয়েন্ট।`,
+                    message: `মোবাইল রিচার্জের জন্য ন্যূনতম ১০০০ পয়েন্ট প্রয়োজন। আপনার বর্তমান ব্যালেন্স: ${userBalance} পয়েন্ট।`,
                     buttons: [{type: 'close', text: 'ঠিক আছে'}]
                 });
             } else {
-                tg.sendData(JSON.stringify({action: 'withdraw', current_balance: userBalance}));
-                tg.close();
-            }
-        }
-
-        window.onload = initApp;
-    </script>
-</body>
-</html>
+                // ১০০০ এর বেশি হলে বটের কাছে মেসেজ ডাটা সাবমিট করবে
