@@ -71,7 +71,6 @@
             width: 95%;
         }
 
-        /* সলিড গ্রিড ভিউ যা মেমরি জ্যাম ছাড়াই সরাসরি বাটন শো করবে */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -237,7 +236,8 @@
             document.getElementById('timer-display').innerText = countdown;
             document.getElementById('video-panel').classList.add('active');
             
-            let targetUrl = linkNum === 1 ? "https://github.io" : `https://github.io{linkNum}.html`;
+            // এখানে লিঙ্ক ফরম্যাট একদম নিখুঁত ভিডিও ফাইলের নামে মিলিয়ে দেওয়া হলো
+            let targetUrl = `https://github.io{linkNum}.html`;
             window.open(targetUrl, '_blank');
 
             timerId = setInterval(() => {
