@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Work For Recharge</title>
-    <!-- Telegram WebApp Core Script -->
+    <!-- Telegram WebApp Script -->
     <script src="https://telegram.org"></script>
     <style>
         :root {
@@ -125,6 +125,7 @@
             }
         }
 
+        // 🔒 ওরিজিনাল গিটহাব লাইভ লিঙ্ক ফরম্যাট যা এক ক্লিকে পপ-আপ ভাঙবে
         function startWork(linkNum) {
             let clicks = clickTracker[linkNum] || 0;
             if (clicks >= 3) {
@@ -139,7 +140,6 @@
             userBalance += 5;
             initApp();
 
-            // 🔒 টেলিগ্রাম মিনি অ্যাপের অফিশিয়াল ওপেনার যা ১00% ব্লক ভাঙবে
             if (tg.openLink) {
                 tg.openLink(targetUrl);
             } else {
@@ -157,9 +157,7 @@
                     });
                 }
             } else {
-                if (tg.showPopup) {
-                    tg.showPopup({ message: `আপনার রিচার্জ রিকোয়েস্টটি সাবমিট হয়েছে।` });
-                }
+                if (tg.showPopup) { tg.showPopup({ message: `আপনার রিচার্জ রিকোয়েস্টটি সাবমিট হয়েছে।` }); }
                 if (tg.close) { tg.close(); }
             }
         }
