@@ -14,7 +14,6 @@
             --text-main: #ffffff;
             --text-sub: #8292a6;
             --success: #27ae60;
-            --warning: #f2994a;
         }
 
         body {
@@ -26,11 +25,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            user-select: none;
-            -webkit-user-select: none;
         }
 
-        /* Top Header Section */
         .header {
             width: 100%;
             display: flex;
@@ -39,12 +35,6 @@
             padding: 10px 5px;
             margin-bottom: 20px;
             border-bottom: 1px solid #242b35;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .logo-text {
@@ -60,7 +50,6 @@
             padding: 8px 16px;
             border-radius: 20px;
             border: 1px solid #2f80ed40;
-            box-shadow: 0 0 10px rgba(47, 128, 237, 0.2);
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -71,7 +60,6 @@
             color: #f2c94c;
         }
 
-        /* Instruction Area */
         .instruction {
             text-align: center;
             font-size: 14px;
@@ -83,7 +71,7 @@
             width: 95%;
         }
 
-        /* Grid View for Video Buttons */
+        /* সলিড গ্রিড ভিউ যা মেমরি জ্যাম ছাড়াই সরাসরি বাটন শো করবে */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -102,25 +90,11 @@
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 5px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .video-btn:active {
-            transform: scale(0.95);
-        }
-
-        .video-btn.completed {
-            border-color: var(--success);
-            background: rgba(39, 174, 96, 0.05);
-        }
-
-        .video-btn.completed .status-icon {
-            color: var(--success);
         }
 
         .status-icon {
@@ -128,7 +102,6 @@
             color: var(--text-sub);
         }
 
-        /* Active Video Overlay Panel */
         .video-overlay {
             position: fixed;
             top: 0;
@@ -141,14 +114,11 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            visibility: hidden;
-            opacity: 0;
-            transition: all 0.3s ease;
+            display: none;
         }
 
         .video-overlay.active {
-            visibility: visible;
-            opacity: 1;
+            display: flex;
         }
 
         .timer-circle {
@@ -162,15 +132,6 @@
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 20px;
-            box-shadow: 0 0 15px var(--accent-color);
-        }
-
-        .overlay-msg {
-            font-size: 16px;
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--text-sub);
-            padding: 0 20px;
         }
 
         .close-btn {
@@ -183,36 +144,23 @@
             cursor: pointer;
         }
 
-        /* Bottom Action Buttons */
         .action-area {
             width: 100%;
             max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
             margin-top: auto;
             padding-bottom: 10px;
         }
 
-        .main-btn {
+        .withdraw-btn {
             width: 100%;
             padding: 14px;
             border: none;
             border-radius: 12px;
             font-size: 16px;
             font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .withdraw-btn {
             background: linear-gradient(90deg, #2f80ed, #0056b3);
             color: white;
-            box-shadow: 0 4px 15px rgba(47, 128, 237, 0.4);
-        }
-
-        .withdraw-btn:active {
-            transform: scale(0.98);
+            cursor: pointer;
         }
     </style>
 </head>
@@ -220,9 +168,7 @@
 
     <!-- Header -->
     <div class="header">
-        <div class="logo-area">
-            <span class="logo-text">WFR App</span>
-        </div>
+        <span class="logo-text">WFR App</span>
         <div class="balance-card">
             <span>💰 Balance:</span>
             <span id="user-balance" class="balance-amount">200</span>
@@ -230,32 +176,43 @@
     </div>
 
     <!-- Instruction -->
-    <div class="instruction" id="info-box">
+    <div class="instruction">
         যেকোনো লিংকে ক্লিক করে ১৫ সেকেন্ড বিজ্ঞাপনটি দেখুন। সম্পূর্ণ না দেখলে পয়েন্ট যোগ হবে না।
     </div>
 
-    <!-- Video Grid -->
-    <div class="grid-container" id="video-grid">
-        <!-- Buttons generated dynamically -->
+    <!-- সলিড ডিরেক্ট ১০টি বোতাম তালিকা -->
+    <div class="grid-container">
+        <button class="video-btn" onclick="startVideoWork(1)"><span>Link 1</span><span class="status-icon" id="status-1">0/3</span></button>
+        <button class="video-btn" onclick="startVideoWork(2)"><span>Link 2</span><span class="status-icon" id="status-2">0/3</span></button>
+        <button class="video-btn" onclick="startVideoWork(3)"><span>Link 3</span><span class="status-icon" id="status-3">0/3</span></button>
+        <button class="video-btn" onclick="startVideoWork(4)"><span>Link 4</span><span class="status-icon" id="status-4">0/3</span></button>
+        <button class="video-btn" onclick="startVideoWork(5)"><span>Link 5</span><span class="status-icon" id="status-5">0/3</span></button>
+        <button class="video-btn" onclick="startVideoWork(6)"><span>Link 6</span><span class="status-icon" id="status-6">0/3</span></button>
+        <button class="video-btn" onclick="startVideoWork(7)"><span>Link 7</span><span class="status-icon" id="status-7">0/3</span></button>
+        <button class="video-btn" onclick="startVideoWork(8)"><span>Link 8</span><span class="status-icon" id="status-8">0/3</span></button>
+        <button class="video-btn" onclick="startVideoWork(9)"><span>Link 9</span><span class="status-icon" id="status-9">0/3</span></button>
+        <button class="video-btn" onclick="startVideoWork(10)"><span>Link 10</span><span class="status-icon" id="status-10">0/3</span></button>
     </div>
 
     <!-- Bottom Action -->
     <div class="action-area">
-        <button class="main-btn withdraw-btn" onclick="handleWithdraw()">📱 Mobile Recharge</button>
+        <button class="withdraw-btn" onclick="handleWithdraw()">📱 Mobile Recharge</button>
     </div>
 
     <!-- Video Ads Overlay -->
     <div class="video-overlay" id="video-panel">
         <div class="timer-circle" id="timer-display">15</div>
-        <div class="overlay-msg" id="overlay-text">বিজ্ঞাপনটি লোড হচ্ছে... এটি ১৫ সেকেন্ড দেখুন। মাঝপথে কেটে দিলে পয়েন্ট পাবেন না।</div>
+        <div style="text-align:center; margin-bottom:30px; color:var(--text-sub); padding:0 20px;">
+            বিজ্ঞাপনটি লোড হচ্ছে... এটি ১৫ সেকেন্ড দেখুন। মাঝপথে কেটে দিলে পয়েন্ট পাবেন না।
+        </div>
         <button class="close-btn" onclick="cancelVideo()">❌ কাজ বাতিল করুন</button>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand(); 
+        tg.expand();
 
-        let userBalance = 200; 
+        let userBalance = 200;
         let activeLink = null;
         let countdown = 15;
         let timerId = null;
@@ -263,37 +220,18 @@
 
         function initApp() {
             document.getElementById('user-balance').innerText = userBalance;
-            renderGrid();
-        }
-
-        function renderGrid() {
-            const grid = document.getElementById('video-grid');
-            grid.innerHTML = '';
             for (let i = 1; i <= 10; i++) {
                 let clicks = clickTracker[i] || 0;
-                let btn = document.createElement('button');
-                btn.className = 'video-btn' + (clicks >= 3 ? ' completed' : '');
-                
-                let title = document.createElement('span');
-                title.innerText = `Link ${i}`;
-                
-                let status = document.createElement('span');
-                status.className = 'status-icon';
-                status.innerText = clicks >= 3 ? '3/3 ✅' : `${clicks}/3`;
-                
-                btn.appendChild(title);
-                btn.appendChild(status);
-                
-                if (clicks < 3) {
-                    btn.onclick = () => startVideoWork(i);
-                } else {
-                    btn.onclick = () => alert(`লিঙ্ক ${i} এর আজকের কাজের লিমিট শেষ!`);
-                }
-                grid.appendChild(btn);
+                document.getElementById(`status-${i}`).innerText = clicks >= 3 ? '3/3 ✅' : `${clicks}/3`;
             }
         }
 
         function startVideoWork(linkNum) {
+            let clicks = clickTracker[linkNum] || 0;
+            if (clicks >= 3) {
+                alert(`লিঙ্ক ${linkNum} এর আজকের কাজের লিমিট শেষ!`);
+                return;
+            }
             activeLink = linkNum;
             countdown = 15;
             document.getElementById('timer-display').innerText = countdown;
@@ -315,11 +253,7 @@
         function cancelVideo() {
             clearInterval(timerId);
             document.getElementById('video-panel').classList.remove('active');
-            tg.showPopup({
-                title: 'কাজ বাতিল',
-                message: 'আপনি সময় শেষ হওয়ার আগেই কেটে দিয়েছেন, তাই কোনো পয়েন্ট যোগ হয়নি!',
-                buttons: [{type: 'ok'}]
-            });
+            tg.showPopup({ title: 'কাজ বাতিল', message: 'পয়েন্ট যোগ হয়নি!', buttons: [{type: 'ok'}] });
         }
 
         function completeVideoWork() {
@@ -327,3 +261,29 @@
             clickTracker[activeLink] = (clickTracker[activeLink] || 0) + 1;
             localStorage.setItem('wfr_clicks', JSON.stringify(clickTracker));
             userBalance += 5;
+            initApp();
+            
+            tg.showPopup({
+                title: 'অভিনন্দন!',
+                message: `লিঙ্ক ${activeLink} এর কাজ সম্পন্ন হয়েছে। ৫ পয়েন্ট যোগ হলো!`,
+                buttons: [{type: 'ok'}]
+            });
+        }
+
+        function handleWithdraw() {
+            if (userBalance < 1000) {
+                tg.showPopup({
+                    title: 'ব্যালেন্স কম!',
+                    message: `ন্যূনতম ১০০০ পয়েন্ট প্রয়োজন। আপনার আছে: ${userBalance} পয়েন্ট।`,
+                    buttons: [{type: 'close', text: 'ঠিক আছে'}]
+                });
+            } else {
+                tg.sendData(JSON.stringify({action: 'withdraw', current_balance: userBalance}));
+                tg.close();
+            }
+        }
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>
