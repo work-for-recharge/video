@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Work For Recharge</title>
-    <!-- Telegram WebApp Core Script -->
+    <!-- Telegram WebApp Script -->
     <script src="https://telegram.org"></script>
     <style>
         :root {
@@ -126,15 +126,16 @@
     </div>
 
     <script>
+        // টেলিগ্রামের মেইন ফাংশন লোড করা হলো
         const tg = window.Telegram.WebApp;
         if (tg.expand) { tg.expand(); }
 
         let userBalance = 200;
         let clickTracker = JSON.parse(localStorage.getItem('wfr_clicks')) || {};
 
-        // 🛠️ ভাই, এই ডাবল কোটেশন (" ") এর ভেতরে আপনার ওরিজিনাল লিঙ্কগুলো একটা একটা করে বসিয়ে দিন:
+        // 🛠️ ভাই, এই ডাবল কোটেশন (" ") এর ভেতরে আপনার ওরিজিনাল ১০টি স্মার্ট লিঙ্ক একটা একটা করে নিজে হাতে বসিয়ে নিন:
         const smartLinks = {
-            1: "https://www.profitableratecpmnetwork.com/a9dw356q8?key=4447f4a89eef6d7da6d76ad07cc68eb6",
+           1: "https://www.profitableratecpmnetwork.com/a9dw356q8?key=4447f4a89eef6d7da6d76ad07cc68eb6",
             2: "https://www.profitableratecpmnetwork.com/g4qj6biyu?key=22dff596c4f72f06ac1e022a9dec10c4",
             3: "https://www.profitableratecpmnetwork.com/dn7q4ncr3d?key=bd428d1db63c7f7c7745568dd0727a38",
             4: "https://www.profitableratecpmnetwork.com/z8aq7rv8d?key=4f0273ed46fd9bab7e7f94ac75f4b7b9",
@@ -144,6 +145,7 @@
             8: "https://www.profitableratecpmnetwork.com/bs7c5m3j?key=82adfddaea13958a5295ff496710ae96",
             9: "https://www.profitableratecpmnetwork.com/wce644fe?key=78d3ecdbb5d3b4f2b53fe47b7d7e8fce",
             10: "https://www.profitableratecpmnetwork.com/jgb8e8m2u?key=072e9373fa459538c8faca6da7a26b4a"
+
         };
 
         function initApp() {
@@ -171,14 +173,16 @@
             userBalance += 5;
             initApp();
 
+            // 🔒 লিঙ্ক ওপেন করার আসল টেলিগ্রাম নিয়ম যা কখনো ব্লক হবে না
             if (tg.openLink) {
                 tg.openLink(targetUrl);
             } else {
-                window.location.href = targetUrl;
+                window.open(targetUrl, '_blank');
             }
         }
 
         function handleWithdraw() {
+            // 🔒 পপ-আপ দেখানোর আসল টেলিগ্রাম নিয়ম যা মোবাইল রিচার্জ বাটনে ১০০% কাজ করবে
             if (userBalance < 1000) {
                 if (tg.showPopup) {
                     tg.showPopup({
